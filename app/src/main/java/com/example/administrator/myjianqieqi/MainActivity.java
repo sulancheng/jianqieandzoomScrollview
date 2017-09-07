@@ -18,6 +18,12 @@ import android.widget.ImageView;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Date;
 
 import static android.R.attr.maxHeight;
 import static android.R.attr.maxWidth;
@@ -33,6 +39,90 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         requestMultiplePermissions();
         myphotot = (ImageView)findViewById(R.id.myphotot);
+        findViewById(R.id.xuanfu).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,XuanfuActivity.class));
+            }
+        });
+    }
+    private void downFile(final String url) {
+        //下载完后存到SD中。
+        final File file = new File(
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/sfjsj");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        File appfile = new File(file, new Date().getTime()+"");
+        if(appfile.exists()){
+            return;
+        }
+        MyThread myThread = new MyThread(url, appfile);
+        myThread.start();
+    }
+
+    private class MyThread extends Thread {
+        private String url;
+        private File file;
+
+        public MyThread(String url, File file) {
+            this.url = url;
+            this.file = file;
+        }
+
+        @Override
+        public void run() {
+            try {
+                //1.获取服务器地址（URL）
+                //String path = "http://192.168.15.28:8080/weixin/2.jpg";
+                String path = url;
+                URL url = new URL(path);
+                //2.建立连接
+                HttpURLConnection openConnection = (HttpURLConnection) url.openConnection();
+                //3设置请求方式和请求时间
+                openConnection.setRequestMethod("GET");
+                openConnection.setConnectTimeout(5000);
+                //4判断响应
+                if (openConnection.getResponseCode() == 200) {
+                    //5.响应正确，下载图片（通过流）
+                    InputStream inputStream = openConnection.getInputStream();
+                    int contentLength = openConnection.getContentLength();
+                    //将流变成图片
+                    //Bitmap bm = BitmapFactory.decodeStream(inputStream);
+
+                    OutputStream outputStream = new FileOutputStream(file);
+                    int len;
+                    int count = 0;
+                    byte[] arr = new byte[1024];
+                    while ((len = inputStream.read(arr)) != -1) {
+                        if (this.isInterrupted()) break;
+                        outputStream.write(arr, 0, len);
+                        count += len;
+                        int aa = (count * 100) / contentLength;
+                        Log.i("下载进度", "aa =" + aa);
+                        if (contentLength > 0) {
+                        }
+                    }
+                    if (outputStream != null) {
+
+                        outputStream.close();
+                    }
+                    if (inputStream != null)
+                        inputStream.close();
+                    if (!this.isInterrupted()) {
+                    }
+                }
+
+            } catch (Exception e) {
+                if (file != null && file.exists()) {
+                    file.delete();
+                }
+                e.printStackTrace();
+            }
+
+        }
+
+
     }
     private void requestMultiplePermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -66,9 +156,10 @@ public class MainActivity extends Activity {
         }
     }
     public void xuanz(View v){
-        Intent i = new Intent(Intent.ACTION_PICK, null);
-        i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
-        startActivityForResult(i, REQUESTCODE_PHOTOZOOM);
+        downFile("http://111.205.184.233:5011/vod/3277eb803d497878aec4caf6cbeeb836.flv");
+//        Intent i = new Intent(Intent.ACTION_PICK, null);
+//        i.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
+//        startActivityForResult(i, REQUESTCODE_PHOTOZOOM);
     }
     public static final String IMAGE_FILE_LOCATION = "file:///sdcard/temp.jpg";
     public static final int REQUESTCODE_PHOTOGRAPH = 3;

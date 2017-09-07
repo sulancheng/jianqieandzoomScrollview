@@ -31,6 +31,11 @@
         android:id="@+id/myphotot"
         android:layout_width="220dp"
         android:layout_height="120dp" />
+    <Button
+        android:id="@+id/xuanfu"
+        android:text="悬浮"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </LinearLayout>
 
 
