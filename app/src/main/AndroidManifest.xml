@@ -24,7 +24,8 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".XuanfuActivity"></activity>
+        <activity android:name=".XuanfuActivity" />
+        <activity android:name=".RecycleActivity"></activity>
     </application>
 
 </manifest>

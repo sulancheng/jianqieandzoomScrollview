@@ -45,6 +45,9 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this,XuanfuActivity.class));
             }
         });
+        findViewById(R.id.recycy).setOnClickListener(view ->
+            startActivity(new Intent(MainActivity.this,RecycleActivity.class))
+        );
     }
     private void downFile(final String url) {
         //下载完后存到SD中。
