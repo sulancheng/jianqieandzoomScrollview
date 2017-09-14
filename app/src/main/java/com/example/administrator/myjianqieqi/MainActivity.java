@@ -48,6 +48,12 @@ public class MainActivity extends Activity {
         findViewById(R.id.recycy).setOnClickListener(view ->
             startActivity(new Intent(MainActivity.this,RecycleActivity.class))
         );
+        findViewById(R.id.cehua).setOnClickListener(view ->
+                startActivity(new Intent(MainActivity.this,CehuaDelAcivity.class))
+        );
+        findViewById(R.id.bt_download).setOnClickListener(view ->
+                startActivity(new Intent(MainActivity.this,EventBusDownload.class))
+        );
     }
     private void downFile(final String url) {
         //下载完后存到SD中。

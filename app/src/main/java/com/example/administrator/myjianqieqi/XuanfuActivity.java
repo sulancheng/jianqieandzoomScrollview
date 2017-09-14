@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 import toan.android.floatingactionmenu.FloatingActionButton;
 import toan.android.floatingactionmenu.FloatingActionsMenu;
 import toan.android.floatingactionmenu.ObservableScrollView;
-
+//悬浮按钮  活动出现于消失,关于listview的或者scrollview的源码的滚动的监听。
 public class XuanfuActivity extends Activity {
     @BindView(R.id.scroll_view)
     ObservableScrollView mScrollView;
