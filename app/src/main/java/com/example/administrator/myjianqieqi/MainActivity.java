@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.administrator.myjianqieqi.gouwaddj.GouwuActivity;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -53,6 +54,9 @@ public class MainActivity extends Activity {
         );
         findViewById(R.id.bt_download).setOnClickListener(view ->
                 startActivity(new Intent(MainActivity.this,EventBusDownload.class))
+        );
+        findViewById(R.id.bt_gou).setOnClickListener(view ->
+                startActivity(new Intent(MainActivity.this,GouwuActivity.class))
         );
     }
     private void downFile(final String url) {

@@ -27,7 +27,8 @@
         <activity android:name=".XuanfuActivity" />
         <activity android:name=".RecycleActivity" />
         <activity android:name=".CehuaDelAcivity" />
-        <activity android:name=".EventBusDownload"></activity>
+        <activity android:name=".EventBusDownload" />
+        <activity android:name=".gouwaddj.GouwuActivity"></activity>
     </application>
 
 </manifest>

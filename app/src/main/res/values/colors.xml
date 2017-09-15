@@ -18,4 +18,8 @@
     <color name="ripple">#F06292</color>
     <color name="accent">#E91E63</color>
     <color name="accent_pressed">#C2185B</color>
+    <color name="colorStepperButtonNormal">#cc482c</color>
+    <color name="colorStepperButtonPress">#92011d</color>
+    <color name="colorStepperContentBg">#f95b3a</color>
+    <color name="colorStepperText">#ffffff</color>
 </resources>

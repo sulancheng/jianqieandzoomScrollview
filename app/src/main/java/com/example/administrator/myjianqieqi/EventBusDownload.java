@@ -47,8 +47,6 @@ public class EventBusDownload extends Activity {
     }
     class myadapter extends BaseAdapter{
 
-
-
         @Override
         public int getCount() {
             return progressInfos.size();
