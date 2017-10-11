@@ -1,7 +1,9 @@
 package com.example.administrator.myjianqieqi;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -33,7 +35,9 @@ public class RecycleActivity extends Activity {
     private void init() {
         rlv = findViewById(R.id.rlv);
         //rlv.setLayoutManager(new GridLayoutManager(this, 2));
-        rlv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        GridLayoutManager layoutManager = new GridLayoutManager(this,3, GridLayoutManager.VERTICAL,false);
+        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+
         List<Myitem> stringing = new ArrayList<>();
         stringing.add(new Myitem(R.drawable.login_bc));
         stringing.add(new Myitem(R.drawable.login_bc));
@@ -51,8 +55,11 @@ public class RecycleActivity extends Activity {
         stringing.add(new Myitem(R.drawable.login_bc));
         stringing.add(new Myitem(R.drawable.login_bc));
         HomeAdapter homeAdapter = new HomeAdapter(R.layout.activity_imag, stringing);
-        rlv.setAdapter(homeAdapter);
+        //homeAdapter.notifyItemChanged();
         homeAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+        homeAdapter.isFirstOnly(false);
+        homeAdapter.setNotDoAnimationCount(0);
+
         homeAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -68,6 +75,20 @@ public class RecycleActivity extends Activity {
 //                        ? gridManager.getSpanCount() : 1;
 //            }
 //        });
+        //成功区分几种不同的recycleview的不同的布局
+        rlv.setLayoutManager(layoutManager);
+        homeAdapter.setSpanSizeLookup(new BaseQuickAdapter.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(GridLayoutManager gridLayoutManager, int position) {
+                if (position==0){
+                    return gridLayoutManager.getSpanCount();//position = 0 的item的weight值为3
+                }else {
+                    return 1;
+                }
+            }
+        });
+        rlv.setAdapter(homeAdapter);
+
     }
     public class HomeAdapter extends BaseQuickAdapter<Myitem, BaseViewHolder> {
         public HomeAdapter(int layoutResId, List data) {
@@ -96,6 +117,31 @@ public class RecycleActivity extends Activity {
             return super.getItemViewType(position);
         }
 
+        @Override
+        protected void startAnim(Animator anim, int index) {
+            super.startAnim(anim, index);
+            if (index < 2)
+                anim.setStartDelay(index * 150);
+        }
 
+//        @Override
+//        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+//            super.onAttachedToRecyclerView(recyclerView);
+//            RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
+//            if(manager instanceof GridLayoutManager) {
+//                final GridLayoutManager gridManager = ((GridLayoutManager) manager);
+//                gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                    @Override
+//                    public int getSpanSize(int position) {
+//                        if (position==2){
+//
+//                            return 1;
+//                        }else {
+//                            return 2;
+//                        }
+//                    }
+//                });
+//            }
+//        }
     }
 }
