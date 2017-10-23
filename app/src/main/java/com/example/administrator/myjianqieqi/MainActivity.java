@@ -19,6 +19,7 @@ import com.example.administrator.myjianqieqi.gouwaddj.GouwuActivity;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -176,7 +177,7 @@ public class MainActivity extends Activity {
     }
     public static final String IMAGE_FILE_LOCATION = "file:///sdcard/temp.jpg";
     public static final int REQUESTCODE_PHOTOGRAPH = 3;
-    public void xuanz2(View v){
+    public void xuanz2(View v){//剪切
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(IMAGE_FILE_LOCATION));
         startActivityForResult(intent, REQUESTCODE_PHOTOGRAPH);
@@ -199,14 +200,36 @@ public class MainActivity extends Activity {
             //Log.i("选择本机的地址 = ");
         }
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            Log.i("UCrop","jianqiewanle1");
+            Log.i("我的剪切器","jianqiewanle1");
             final Uri resultUri = UCrop.getOutput(data);
             Bitmap photo = BitmapFactory.decodeFile(resultUri.getPath());
-            Log.i("UCrop","jianqiewanle2");
+            File file = new File(
+                    Environment.getExternalStorageDirectory().getAbsolutePath() + "/jianqie/");
+            if(!file.exists()) file.mkdirs();
+            File jpgfile = new File(file, "UCrop.jpg");
+            FileOutputStream baos = null;
+            try {
+                baos = new FileOutputStream(jpgfile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            photo.compress(Bitmap.CompressFormat.PNG, 100, baos); //保存到本地成功
+            Log.i("我的剪切器","jianqiewanle2");
             //saveandcps(photo);
             myphotot.setImageBitmap(photo);
+            File files = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"temp.jpg");//记得删除
+            Log.i("我的剪切器",files.exists()+" ");
+            if (files.exists()) {
+                files.delete();
+            }
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
+            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(),"temp.jpg");//记得删除
+            Log.i("我的剪切器",file.exists()+" ");
+            if (file.exists()) {
+                file.delete();
+            }
         }
+
     }
 }
