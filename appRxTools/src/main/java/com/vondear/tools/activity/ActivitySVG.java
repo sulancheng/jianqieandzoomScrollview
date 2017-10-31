@@ -42,12 +42,12 @@ public class ActivitySVG extends ActivityBase {
     }
 
     private void setSvg(ModelSVG modelSvg) {
-        mSvgView.setGlyphStrings(modelSvg.glyphs);
-        mSvgView.setFillColors(modelSvg.colors);
-        mSvgView.setViewportSize(modelSvg.width, modelSvg.height);
-        mSvgView.setTraceResidueColor(0x32000000);
-        mSvgView.setTraceColors(modelSvg.colors);
-        mSvgView.rebuildGlyphData();
+//        mSvgView.setGlyphStrings(modelSvg.glyphs);
+//        mSvgView.setFillColors(modelSvg.colors);
+//        mSvgView.setViewportSize(modelSvg.width, modelSvg.height);
+//        mSvgView.setTraceResidueColor(0x32000000);
+//        mSvgView.setTraceColors(modelSvg.colors);
+//        mSvgView.rebuildGlyphData();
         mSvgView.start();
     }
 
