@@ -43,7 +43,15 @@ public class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapte
             });
         }
     }
-
+    //自定义监听事件
+    public static interface OnRecyclerViewItemClickListener {
+        void onItemClick(View view);
+        void onItemLongClick(View view);
+    }
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+        mOnItemClickListener = listener;
+    }
     private Context mContext;
     private ArrayList<String> mDataset;
 

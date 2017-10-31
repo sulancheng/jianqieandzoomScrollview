@@ -1,1 +1,1 @@
-include ':app', ':zoomScrollview', ':swipecehua'
+include ':app', ':zoomScrollview', ':swipecehua', ':RxTools-library', ':appRxTools'
