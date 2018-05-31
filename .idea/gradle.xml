@@ -8,7 +8,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/RxTools-library" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/appRxTools" />
+            <option value="$PROJECT_DIR$/swipecehua" />
             <option value="$PROJECT_DIR$/zoomScrollview" />
           </set>
         </option>

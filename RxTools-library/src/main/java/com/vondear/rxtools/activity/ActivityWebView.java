@@ -28,6 +28,9 @@ import com.vondear.rxtools.RxImageTool;
 import com.vondear.rxtools.RxKeyboardTool;
 import com.vondear.rxtools.view.RxTextAutoZoom;
 
+/**
+ * @author vondear
+ */
 public class ActivityWebView extends ActivityBase {
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
@@ -195,6 +198,7 @@ public class ActivityWebView extends ActivityBase {
             }
         });
         webBase.setDownloadListener(new DownloadListener() {
+            @Override
             public void onDownloadStart(String paramAnonymousString1, String paramAnonymousString2, String paramAnonymousString3, String paramAnonymousString4, long paramAnonymousLong) {
                 Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
@@ -208,11 +212,13 @@ public class ActivityWebView extends ActivityBase {
 //        webBase.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,webBase.getHeight()));
     }
 
+    @Override
     protected void onSaveInstanceState(Bundle paramBundle) {
         super.onSaveInstanceState(paramBundle);
         paramBundle.putString("url", webBase.getUrl());
     }
 
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         try {
             super.onConfigurationChanged(newConfig);

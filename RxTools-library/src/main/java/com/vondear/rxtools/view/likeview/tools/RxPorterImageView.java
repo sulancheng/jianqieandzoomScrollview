@@ -1,6 +1,5 @@
 package com.vondear.rxtools.view.likeview.tools;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -13,10 +12,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.ImageView;
 
-@SuppressLint("AppCompatCustomView")
-public abstract class RxPorterImageView extends ImageView {
+/**
+ * @author vondear
+ */
+public abstract class RxPorterImageView extends android.support.v7.widget.AppCompatImageView {
     private static final String TAG = RxPorterImageView.class.getSimpleName();
 
     private static final PorterDuffXfermode PORTER_DUFF_XFERMODE = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);

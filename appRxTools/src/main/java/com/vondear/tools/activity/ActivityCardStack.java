@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.vondear.rxtools.RxTool;
-import com.vondear.rxtools.interfaces.OnDelayListener;
+import com.vondear.rxtools.interfaces.OnSimpleListener;
 import com.vondear.rxtools.view.cardstack.RxCardStackView;
 import com.vondear.rxtools.view.cardstack.tools.RxAdapterAllMoveDownAnimator;
 import com.vondear.rxtools.view.cardstack.tools.RxAdapterUpDownAnimator;
@@ -21,6 +21,9 @@ import java.util.Arrays;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author vondear
+ */
 public class ActivityCardStack extends AppCompatActivity implements RxCardStackView.ItemExpendListener {
 
     public static Integer[] TEST_DATAS = new Integer[]{
@@ -67,7 +70,7 @@ public class ActivityCardStack extends AppCompatActivity implements RxCardStackV
         mTestStackAdapter = new AdapterStackTest(this);
         mStackView.setAdapter(mTestStackAdapter);
 
-        RxTool.delayToDo(200, new OnDelayListener() {
+        RxTool.delayToDo(200, new OnSimpleListener() {
             @Override
             public void doSomething() {
                 mTestStackAdapter.updateData(Arrays.asList(TEST_DATAS));
@@ -92,6 +95,8 @@ public class ActivityCardStack extends AppCompatActivity implements RxCardStackV
                 break;
             case R.id.menu_up_down_stack:
                 mStackView.setRxAdapterAnimator(new RxAdapterUpDownStackAnimator(mStackView));
+                break;
+            default:
                 break;
         }
         return super.onOptionsItemSelected(item);

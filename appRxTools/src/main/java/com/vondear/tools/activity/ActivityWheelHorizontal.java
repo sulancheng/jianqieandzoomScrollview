@@ -26,6 +26,9 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author vondear
+ */
 public class ActivityWheelHorizontal extends ActivityBase {
 
 
@@ -53,7 +56,7 @@ public class ActivityWheelHorizontal extends ActivityBase {
     TextView mSelectedTv;
     @BindView(R.id.LinearLayout1)
     LinearLayout mLinearLayout1;
-    private List<String> listYearMonth = new ArrayList<String>();
+    private List<String> listYearMonth = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +72,13 @@ public class ActivityWheelHorizontal extends ActivityBase {
 
     private void initRulerView() {
 
-        mWheelview = (RxRulerWheelView) findViewById(R.id.wheelview);
-        mWheelview2 = (RxRulerWheelView) findViewById(R.id.wheelview2);
-        mWheelview3 = (RxRulerWheelView) findViewById(R.id.wheelview3);
-        mWheelview4 = (RxRulerWheelView) findViewById(R.id.wheelview4);
-        mWheelview5 = (RxRulerWheelView) findViewById(R.id.wheelview5);
-        mSelectedTv = (TextView) findViewById(R.id.selected_tv);
-        mChangedTv = (TextView) findViewById(R.id.changed_tv);
+        mWheelview =  findViewById(R.id.wheelview);
+        mWheelview2 =  findViewById(R.id.wheelview2);
+        mWheelview3 =  findViewById(R.id.wheelview3);
+        mWheelview4 =  findViewById(R.id.wheelview4);
+        mWheelview5 =  findViewById(R.id.wheelview5);
+        mSelectedTv =  findViewById(R.id.selected_tv);
+        mChangedTv =  findViewById(R.id.changed_tv);
 
         final List<String> items = new ArrayList<>();
         for (int i = 1; i <= 40; i++) {

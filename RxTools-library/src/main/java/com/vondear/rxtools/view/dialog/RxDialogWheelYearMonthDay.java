@@ -9,17 +9,21 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vondear.rxtools.R;
 import com.vondear.rxtools.RxTimeTool;
-import com.vondear.rxtools.view.dialog.dialogWheel.DateArrayAdapter;
-import com.vondear.rxtools.view.dialog.dialogWheel.NumericWheelAdapter;
-import com.vondear.rxtools.view.dialog.dialogWheel.OnWheelChangedListener;
-import com.vondear.rxtools.view.dialog.dialogWheel.WheelView;
+import com.vondear.rxtools.view.dialog.wheel.DateArrayAdapter;
+import com.vondear.rxtools.view.dialog.wheel.NumericWheelAdapter;
+import com.vondear.rxtools.view.dialog.wheel.OnWheelChangedListener;
+import com.vondear.rxtools.view.dialog.wheel.WheelView;
 
 import java.util.Calendar;
 
+/**
+ * @author vondear
+ */
 public class RxDialogWheelYearMonthDay extends RxDialog {
     private WheelView mYearView;
     private WheelView mMonthView;
@@ -31,6 +35,7 @@ public class RxDialogWheelYearMonthDay extends RxDialog {
     private TextView mTvCancle;
     private CheckBox mCheckBoxDay;
     private Calendar mCalendar;
+    private LinearLayout llType;
     private String mMonths[] = new String[]{"01", "02", "03",
             "04", "05", "06", "07", "08", "09", "10", "11", "12"};
     private String mDays[] = new String[]{"01", "02", "03", "04", "05", "06", "07",
@@ -65,12 +70,12 @@ public class RxDialogWheelYearMonthDay extends RxDialog {
         build();
     }
 
-    public RxDialogWheelYearMonthDay(Context mContext, TextView tv_time) {
+    public RxDialogWheelYearMonthDay(Context mContext, TextView tvTime) {
         super(mContext);
         // TODO Auto-generated constructor stub
         this.mContext = mContext;
         build();
-        tv_time.setText(curYear + "年" + mMonths[curMonth] + "月");
+        tvTime.setText(curYear + "年" + mMonths[curMonth] + "月");
     }
 
     public int getBeginYear() {
@@ -83,6 +88,16 @@ public class RxDialogWheelYearMonthDay extends RxDialog {
 
     public int getDivideYear() {
         return divideYear;
+    }
+
+    public void setMonthType(Boolean isTrue) {
+        if (isTrue) {
+            llType.setVisibility(View.INVISIBLE);
+        } else {
+            llType.setVisibility(View.VISIBLE);
+        }
+        mCheckBoxDay.setChecked(!isTrue);
+
     }
 
     private void build() {
@@ -108,7 +123,7 @@ public class RxDialogWheelYearMonthDay extends RxDialog {
         }
 
         //mYearView
-        mYearView = (WheelView) dialogView1.findViewById(R.id.wheelView_year);
+        mYearView = dialogView1.findViewById(R.id.wheelView_year);
         mYearView.setBackgroundResource(R.drawable.transparent_bg);
         mYearView.setWheelBackground(R.drawable.transparent_bg);
         mYearView.setWheelForeground(R.drawable.wheel_val_holo);
@@ -119,7 +134,7 @@ public class RxDialogWheelYearMonthDay extends RxDialog {
 
 
         // mMonthView
-        mMonthView = (WheelView) dialogView1
+        mMonthView = dialogView1
                 .findViewById(R.id.wheelView_month);
         mMonthView.setBackgroundResource(R.drawable.transparent_bg);
         mMonthView.setWheelBackground(R.drawable.transparent_bg);
@@ -132,7 +147,7 @@ public class RxDialogWheelYearMonthDay extends RxDialog {
 
 
         //mDayView
-        mDayView = (WheelView) dialogView1.findViewById(R.id.wheelView_day);
+        mDayView = dialogView1.findViewById(R.id.wheelView_day);
         updateDays(mYearView, mMonthView, mDayView);
         curDay = mCalendar.get(Calendar.DAY_OF_MONTH);
         mDayView.setCurrentItem(curDay - 1);
@@ -141,15 +156,15 @@ public class RxDialogWheelYearMonthDay extends RxDialog {
         mDayView.setWheelForeground(R.drawable.wheel_val_holo);
         mDayView.setShadowColor(0xFFDADCDB, 0x88DADCDB, 0x00DADCDB);
 
-        mTvSure = (TextView) dialogView1.findViewById(R.id.tv_sure);
-        mTvCancle = (TextView) dialogView1.findViewById(R.id.tv_cancel);
+        mTvSure = dialogView1.findViewById(R.id.tv_sure);
+        mTvCancle = dialogView1.findViewById(R.id.tv_cancel);
+        llType = dialogView1.findViewById(R.id.ll_month_type);
 
-        mCheckBoxDay = (CheckBox) dialogView1.findViewById(R.id.checkBox_day);
+        mCheckBoxDay = dialogView1.findViewById(R.id.checkBox_day);
         mCheckBoxDay.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
                 if (isChecked) {
                     mDayView.setVisibility(View.VISIBLE);
                 } else {

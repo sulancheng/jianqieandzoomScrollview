@@ -235,13 +235,4 @@
     <style name="SpinKitView.Small.MultiplePulseRing">
         <item name="SpinKit_Style">MultiplePulseRing</item>
     </style>
-    <style name="AddressDialog"  parent="@android:style/Theme.Dialog">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@color/mz_white</item>
-        <item name="android:windowAnimationStyle">@style/AddressDialogAnimation</item>
-    </style>
-    <style name="AddressDialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/enter</item>
-        <item name="android:windowExitAnimation">@anim/exit</item>
-    </style>
 </resources>

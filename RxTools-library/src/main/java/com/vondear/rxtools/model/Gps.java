@@ -1,13 +1,17 @@
 package com.vondear.rxtools.model;
 
 /**
- * Created by Vondear on 2017/6/19.
+ * @author Vondear
+ * @date 2017/6/19
  */
 
 public class Gps {
 
     private double mLatitude;
     private double mLongitude;
+
+    public Gps() {
+    }
 
     public Gps(double longitude, double mLatitude) {
         setLatitude(mLatitude);

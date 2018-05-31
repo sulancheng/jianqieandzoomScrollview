@@ -15,7 +15,6 @@
  */
 package com.vondear.rxtools.view.heart.tools;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,13 +24,14 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.vondear.rxtools.R;
 
 
-@SuppressLint("AppCompatCustomView")
-public class RxHeartView extends ImageView {
+/**
+ * @author vondear
+ */
+public class RxHeartView extends android.support.v7.widget.AppCompatImageView {
 
     private static final Paint sPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     private static final Canvas sCanvas = new Canvas();

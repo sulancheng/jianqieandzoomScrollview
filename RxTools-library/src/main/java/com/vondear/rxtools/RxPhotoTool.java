@@ -14,7 +14,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.vondear.rxtools.view.RxToast;
@@ -30,7 +32,9 @@ import static com.vondear.rxtools.RxFileTool.isGooglePhotosUri;
 import static com.vondear.rxtools.RxFileTool.isMediaDocument;
 
 /**
- * Created by vondear on 2016/1/24.
+ *
+ * @author vondear
+ * @date 2016/1/24
  */
 
 public class RxPhotoTool {
@@ -52,7 +56,7 @@ public class RxPhotoTool {
     }
 
     public static void openCameraImage(final Fragment fragment) {
-        imageUriFromCamera = createImagePathUri(fragment.getActivity());
+        imageUriFromCamera = createImagePathUri(fragment.getContext());
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // MediaStore.EXTRA_OUTPUT参数不设置时,系统会自动生成一个uri,但是只会返回一个缩略图
@@ -111,7 +115,7 @@ public class RxPhotoTool {
     }
 
     public static void cropImage(Fragment fragment, Uri srcUri) {
-        cropImageUri = createImagePathUri(fragment.getActivity());
+        cropImageUri = createImagePathUri(fragment.getContext());
 
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(srcUri, "image/*");
@@ -153,8 +157,8 @@ public class RxPhotoTool {
     public static Uri createImagePathUri(final Context context) {
         final Uri[] imageFilePath = {null};
 
-        if (context.checkSelfPermission( Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ((Activity)context).requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             imageFilePath[0] = Uri.parse("");
             RxToast.error("请先获取写入SDCard权限");
         } else {

@@ -20,6 +20,7 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +28,9 @@ import android.view.View;
 import com.vondear.rxtools.R;
 
 
+/**
+ * @author vondear
+ */
 public class RxSeekBar extends View {
 
 
@@ -272,7 +276,7 @@ public class RxSeekBar extends View {
                     float num = Float.parseFloat(text2Draw);
                     float[] result = getCurrentRange();
                     if (compareFloat(num, result[0]) != -1 && compareFloat(num, result[1]) != 1 && mSeekBarMode == 2) {
-                        mCursorPaint.setColor(getResources().getColor( R.color.green));
+                        mCursorPaint.setColor(ContextCompat.getColor(getContext(), R.color.green));
                     } else {
                         mCursorPaint.setColor(colorLineEdge);
                     }

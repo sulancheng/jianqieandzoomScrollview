@@ -1,6 +1,7 @@
 package com.vondear.rxtools;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.ContentResolver;
@@ -18,6 +19,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -46,7 +48,9 @@ import java.util.Map;
 
 /**
  * 设备工具类
- * Created by vondear on 2016/1/24.
+ *
+ * @author vondear
+ * @date 2016/1/24
  */
 
 public class RxDeviceTool {
@@ -143,9 +147,18 @@ public class RxDeviceTool {
      * @param context
      * @return
      */
+    @SuppressLint("HardwareIds")
     public static String getDeviceIdIMEI(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        return tm.getDeviceId();
+        String id;
+        //android.telephony.TelephonyManager
+        TelephonyManager mTelephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        if (mTelephony.getDeviceId() != null) {
+            id = mTelephony.getDeviceId();
+        } else {
+            //android.provider.Settings;
+            id = Settings.Secure.getString(context.getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+        }
+        return id;
     }
 
     /**
@@ -431,7 +444,7 @@ public class RxDeviceTool {
                     .getSystemService(Context.TELEPHONY_SERVICE);
             String device_id = null;
             if (checkPermission(context, Manifest.permission.READ_PHONE_STATE)) {
-                device_id = tm.getDeviceId();
+                device_id = getDeviceIdIMEI(context);
             }
             String mac = null;
             FileReader fstream = null;
@@ -577,7 +590,7 @@ public class RxDeviceTool {
         TelephonyManager tm = (TelephonyManager) context
                 .getSystemService(Context.TELEPHONY_SERVICE);
         String str = "";
-        str += "DeviceId(IMEI) = " + tm.getDeviceId() + "\n";
+        str += "DeviceId(IMEI) = " + getDeviceIdIMEI(context) + "\n";
         str += "DeviceSoftwareVersion = " + tm.getDeviceSoftwareVersion() + "\n";
         str += "Line1Number = " + tm.getLine1Number() + "\n";
         str += "NetworkCountryIso = " + tm.getNetworkCountryIso() + "\n";
@@ -619,7 +632,7 @@ public class RxDeviceTool {
             // 封装一个拨打电话的intent，并且将电话号码包装成一个Uri对象传入
 
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber1));
-            if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             context.startActivity(intent);// 内部类

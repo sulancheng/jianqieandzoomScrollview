@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.vondear.rxtools.RxActivityTool;
 
+/**
+ * @author vondear
+ */
 public class ActivityBase extends FragmentActivity {
 
     public ActivityBase mContext;
@@ -15,6 +18,7 @@ public class ActivityBase extends FragmentActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         RxActivityTool.addActivity(this);
+//        DragAndDropPermissionsCompat
     }
 
     @Override

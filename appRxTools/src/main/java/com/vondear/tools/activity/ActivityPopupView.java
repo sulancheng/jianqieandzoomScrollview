@@ -1,13 +1,13 @@
 package com.vondear.tools.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -28,6 +28,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * @author vondear
+ */
 public class ActivityPopupView extends ActivityBase implements RxPopupViewManager.TipListener {
 
 
@@ -40,7 +43,7 @@ public class ActivityPopupView extends ActivityBase implements RxPopupViewManage
     @BindView(R.id.tv_definition)
     TextView mTvDefinition;
     @BindView(R.id.text_input_edit_text)
-    EditText mTextInputEditText;
+    TextInputEditText mTextInputEditText;
     @BindView(R.id.text_input_layout)
     TextInputLayout mTextInputLayout;
     @BindView(R.id.text_view_buttons_label)

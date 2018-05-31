@@ -7,16 +7,27 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 
 import com.vondear.rxtools.RxLocationTool;
 import com.vondear.rxtools.RxVibrateTool;
+import com.vondear.rxtools.model.Gps;
 import com.vondear.rxtools.view.RxToast;
 import com.vondear.rxtools.view.dialog.RxDialogGPSCheck;
+import com.vondear.rxtools.view.dialog.RxDialogTool;
 
+/**
+ * @author vondear
+ */
 public abstract class ActivityBaseLocation extends ActivityBase {
 
-    public double mLongitude = 0;//经度
-    public double mLatitude = 0;//纬度
+    //经度
+    public double mLongitude = 0;
+    //纬度
+    public double mLatitude = 0;
+
+    public Gps mGps;
+
     public LocationManager mLocationManager;
     private LocationListener mLocationListener;
 
@@ -34,7 +45,7 @@ public abstract class ActivityBaseLocation extends ActivityBase {
     }
 
     //----------------------------------------------------------------------------------------------检测GPS是否已打开 start
-    private void gpsCheck() {
+    protected void gpsCheck() {
         if (!RxLocationTool.isGpsEnabled(this)) {
             RxDialogGPSCheck rxDialogGPSCheck = new RxDialogGPSCheck(mContext);
             rxDialogGPSCheck.show();
@@ -42,12 +53,12 @@ public abstract class ActivityBaseLocation extends ActivityBase {
             getLocation();
         }
     }
-
     //==============================================================================================检测GPS是否已打开 end
 
     private void getLocation() {
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission( Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(mContext, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            RxDialogTool.initDialogSurePermission(mContext, "请先打开GPS定位权限");
             return;
         }
         mLocationListener = new LocationListener() {
@@ -55,6 +66,7 @@ public abstract class ActivityBaseLocation extends ActivityBase {
             public void onLocationChanged(Location location) {
                 mLongitude = location.getLongitude();
                 mLatitude = location.getLatitude();
+                mGps = new Gps(mLongitude, mLatitude);
                 setGpsInfo(location);
             }
 
@@ -73,6 +85,8 @@ public abstract class ActivityBaseLocation extends ActivityBase {
                     //GPS状态为暂停服务时
                     case LocationProvider.TEMPORARILY_UNAVAILABLE:
 
+                        break;
+                    default:
                         break;
                 }
             }

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vondear.tools.R;
-import com.vondear.tools.bean.ModelContactCity;
+import com.vondear.tools.model.ModelContactCity;
 
 import java.util.List;
 
@@ -15,6 +15,9 @@ import cc.solart.turbo.BaseTurboAdapter;
 import cc.solart.turbo.BaseViewHolder;
 
 
+/**
+ * @author vondear
+ */
 public class AdapterContactCity extends BaseTurboAdapter<ModelContactCity, BaseViewHolder> {
 
     public AdapterContactCity(Context context) {

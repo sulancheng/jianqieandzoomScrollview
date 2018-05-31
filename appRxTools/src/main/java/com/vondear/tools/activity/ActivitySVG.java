@@ -11,11 +11,14 @@ import com.vondear.rxtools.RxActivityTool;
 import com.vondear.rxtools.RxBarTool;
 import com.vondear.rxtools.activity.ActivityBase;
 import com.vondear.tools.R;
-import com.vondear.tools.bean.ModelSVG;
+import com.vondear.tools.model.ModelSVG;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * @author vondear
+ */
 public class ActivitySVG extends ActivityBase {
 
     @BindView(R.id.animated_svg_view)
@@ -42,12 +45,12 @@ public class ActivitySVG extends ActivityBase {
     }
 
     private void setSvg(ModelSVG modelSvg) {
-//        mSvgView.setGlyphStrings(modelSvg.glyphs);
-//        mSvgView.setFillColors(modelSvg.colors);
-//        mSvgView.setViewportSize(modelSvg.width, modelSvg.height);
-//        mSvgView.setTraceResidueColor(0x32000000);
-//        mSvgView.setTraceColors(modelSvg.colors);
-//        mSvgView.rebuildGlyphData();
+        mSvgView.setGlyphStrings(modelSvg.glyphs);
+        mSvgView.setFillColors(modelSvg.colors);
+        mSvgView.setViewportSize(modelSvg.width, modelSvg.height);
+        mSvgView.setTraceResidueColor(0x32000000);
+        mSvgView.setTraceColors(modelSvg.colors);
+        mSvgView.rebuildGlyphData();
         mSvgView.start();
     }
 

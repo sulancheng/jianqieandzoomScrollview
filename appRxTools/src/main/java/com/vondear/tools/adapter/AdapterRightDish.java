@@ -10,15 +10,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.vondear.tools.R;
-import com.vondear.tools.bean.ModelDish;
-import com.vondear.tools.bean.ModelDishMenu;
-import com.vondear.tools.bean.ModelShopCart;
+import com.vondear.tools.model.ModelDish;
+import com.vondear.tools.model.ModelDishMenu;
+import com.vondear.tools.model.ModelShopCart;
 import com.vondear.tools.interfaces.ShopCartInterface;
 
 import java.util.ArrayList;
 
 /**
- * Created by cheng on 16-11-10.
+ * @author vondear
+ * @date 16-11-10
  */
 public class AdapterRightDish extends RecyclerView.Adapter {
     private final int MENU_TYPE = 0;

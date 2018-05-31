@@ -12,7 +12,8 @@ import com.vondear.rxtools.RxPhotoTool;
 
 
 /**
- * Created by vondear on 2017/3/20.
+ * @author vondear
+ * @date 2017/3/20
  * 封装了从相册/相机 获取 图片 的Dialog.
  */
 public class RxDialogChooseImage extends RxDialog {
@@ -28,7 +29,7 @@ public class RxDialogChooseImage extends RxDialog {
     }
 
     public RxDialogChooseImage(Fragment fragment) {
-        super(fragment.getActivity());
+        super(fragment.getContext());
         initView(fragment);
     }
 
@@ -38,7 +39,7 @@ public class RxDialogChooseImage extends RxDialog {
     }
 
     public RxDialogChooseImage(Fragment fragment, int themeResId) {
-        super(fragment.getActivity(), themeResId);
+        super(fragment.getContext(), themeResId);
         initView(fragment);
     }
 
@@ -48,19 +49,19 @@ public class RxDialogChooseImage extends RxDialog {
     }
 
     public RxDialogChooseImage(Fragment fragment, float alpha, int gravity) {
-        super(fragment.getActivity(), alpha, gravity);
+        super(fragment.getContext(), alpha, gravity);
         initView(fragment);
     }
 
     public RxDialogChooseImage(Fragment fragment, LayoutType layoutType) {
-        super(fragment.getActivity());
+        super(fragment.getContext());
         mLayoutType = layoutType;
         initView(fragment);
     }
 
 
     public RxDialogChooseImage(Activity context, LayoutType layoutType) {
-        super(context, R.style.AddressDialog);
+        super(context);
         mLayoutType = layoutType;
         initView(context);
     }
@@ -72,7 +73,7 @@ public class RxDialogChooseImage extends RxDialog {
     }
 
     public RxDialogChooseImage(Fragment fragment, int themeResId, LayoutType layoutType) {
-        super(fragment.getActivity(), themeResId);
+        super(fragment.getContext(), themeResId);
         mLayoutType = layoutType;
         initView(fragment);
     }
@@ -84,7 +85,7 @@ public class RxDialogChooseImage extends RxDialog {
     }
 
     public RxDialogChooseImage(Fragment fragment, float alpha, int gravity, LayoutType layoutType) {
-        super(fragment.getActivity(), alpha, gravity);
+        super(fragment.getContext(), alpha, gravity);
         mLayoutType = layoutType;
         initView(fragment);
     }
@@ -106,20 +107,22 @@ public class RxDialogChooseImage extends RxDialog {
     }
 
     private void initView(final Activity activity) {
-        View dialog_view = null;
+        View dialogView = null;
         switch (mLayoutType) {
             case TITLE:
-                dialog_view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_picker_pictrue, null);
+                dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_picker_pictrue, null);
                 break;
             case NO_TITLE:
-                dialog_view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_camero_show, null);
+                dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_camero_show, null);
+                break;
+            default:
                 break;
         }
 
 
-        mTvCamera = (TextView) dialog_view.findViewById(R.id.tv_camera);
-        mTvFile = (TextView) dialog_view.findViewById(R.id.tv_file);
-        mTvCancel = (TextView) dialog_view.findViewById(R.id.tv_cancel);
+        mTvCamera = dialogView.findViewById(R.id.tv_camera);
+        mTvFile = dialogView.findViewById(R.id.tv_file);
+        mTvCancel = dialogView.findViewById(R.id.tv_cancel);
         mTvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -142,24 +145,26 @@ public class RxDialogChooseImage extends RxDialog {
                 cancel();
             }
         });
-        setContentView(dialog_view);
+        setContentView(dialogView);
         mLayoutParams.gravity = Gravity.BOTTOM;
     }
 
     private void initView(final Fragment fragment) {
-        View dialog_view = null;
+        View dialogView = null;
         switch (mLayoutType) {
             case TITLE:
-                dialog_view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_picker_pictrue, null);
+                dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_picker_pictrue, null);
                 break;
             case NO_TITLE:
-                dialog_view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_camero_show, null);
+                dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_camero_show, null);
+                break;
+            default:
                 break;
         }
 
-        mTvCamera = (TextView) dialog_view.findViewById(R.id.tv_camera);
-        mTvFile = (TextView) dialog_view.findViewById(R.id.tv_file);
-        mTvCancel = (TextView) dialog_view.findViewById(R.id.tv_cancel);
+        mTvCamera =  dialogView.findViewById(R.id.tv_camera);
+        mTvFile =  dialogView.findViewById(R.id.tv_file);
+        mTvCancel =  dialogView.findViewById(R.id.tv_cancel);
         mTvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -184,7 +189,7 @@ public class RxDialogChooseImage extends RxDialog {
             }
         });
 
-        setContentView(dialog_view);
+        setContentView(dialogView);
         mLayoutParams.gravity = Gravity.BOTTOM;
     }
 

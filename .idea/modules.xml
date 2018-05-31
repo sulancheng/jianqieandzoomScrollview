@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Myjianqieqi.iml" filepath="$PROJECT_DIR$/Myjianqieqi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RxTools-library/RxTools-library.iml" filepath="$PROJECT_DIR$/RxTools-library/RxTools-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/appRxTools/appRxTools.iml" filepath="$PROJECT_DIR$/appRxTools/appRxTools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gitjianqieandzoomScrollview.iml" filepath="$PROJECT_DIR$/gitjianqieandzoomScrollview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swipecehua/swipecehua.iml" filepath="$PROJECT_DIR$/swipecehua/swipecehua.iml" />
       <module fileurl="file://$PROJECT_DIR$/zoomScrollview/zoomScrollview.iml" filepath="$PROJECT_DIR$/zoomScrollview/zoomScrollview.iml" />
     </modules>
   </component>

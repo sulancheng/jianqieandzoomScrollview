@@ -9,11 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.vondear.rxtools.RxActivityTool;
 import com.vondear.tools.R;
-import com.vondear.tools.bean.ModelMainItem;
+import com.vondear.tools.model.ModelMainItem;
 
 import java.util.List;
 
@@ -21,7 +19,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by vonde on 2016/11/13.
+ * @author vondear
+ * @date 2016/11/13
  */
 
 public class AdapterRecyclerViewMain extends RecyclerView.Adapter<AdapterRecyclerViewMain.ViewHolder> {
@@ -55,12 +54,7 @@ public class AdapterRecyclerViewMain extends RecyclerView.Adapter<AdapterRecycle
 
         Glide.with(context).
                 load(holder.mItem.getImage()).
-                diskCacheStrategy(DiskCacheStrategy.RESULT).
                 thumbnail(0.5f).
-                priority(Priority.HIGH).
-                placeholder(R.drawable.pikachu_sit).
-                error(R.drawable.pikachu_sit).
-                fallback(R.drawable.pikachu_sit).
                 into(holder.imageView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

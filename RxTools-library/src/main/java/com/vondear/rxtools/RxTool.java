@@ -1,11 +1,14 @@
 package com.vondear.rxtools;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -13,13 +16,17 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.vondear.rxtools.interfaces.OnDelayListener;
+import com.vondear.rxtools.interfaces.OnSimpleListener;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
- * Created by vondear on 2016/1/24.
+ * @author vondear
+ * @date 2016/1/24
  * RxTools的常用工具类
  * <p>
  * For the brave souls who get this far: You are the chosen ones,
@@ -36,6 +43,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class RxTool {
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context;
     private static long lastClickTime;
 
@@ -57,17 +65,20 @@ public class RxTool {
      * @return ApplicationContext
      */
     public static Context getContext() {
-        if (context != null) return context;
+        if (context != null) {
+            return context;
+        }
         throw new NullPointerException("请先调用init()方法");
     }
     //==============================================================================================延时任务封装 end
 
     //----------------------------------------------------------------------------------------------延时任务封装 start
-    public static void delayToDo(long delayTime, final OnDelayListener onDelayListener) {
+    public static void delayToDo(long delayTime, final OnSimpleListener onSimpleListener) {
         new Handler().postDelayed(new Runnable() {
+            @Override
             public void run() {
                 //execute the task
-                onDelayListener.doSomething();
+                onSimpleListener.doSomething();
             }
         }, delayTime);
     }
@@ -84,9 +95,10 @@ public class RxTool {
         textView.setEnabled(false);
         android.os.CountDownTimer timer = new android.os.CountDownTimer(waitTime, interval) {
 
+            @SuppressLint("DefaultLocale")
             @Override
             public void onTick(long millisUntilFinished) {
-                textView.setText("剩下 " + (millisUntilFinished / 1000) + " S");
+                textView.setText(String.format("剩下 %d S", millisUntilFinished / 1000));
             }
 
             @Override
@@ -170,7 +182,7 @@ public class RxTool {
      * @param defType
      * @return
      */
-    public static final int getResIdByName(Context context, String name, String defType) {
+    public final static int getResIdByName(Context context, String name, String defType) {
         return context.getResources().getIdentifier("ic_launcher", "drawable", context.getPackageName());
     }
 
@@ -192,13 +204,61 @@ public class RxTool {
      * @param editText
      */
     public static void setEdTwoDecimal(EditText editText) {
-        setEdDecimal(editText, 3);
+        setEdDecimal(editText, 2);
+    }
+
+    /**
+     * @param editText
+     */
+    public static void setEdType(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void
+            beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void
+            onTextChanged(CharSequence s, int start, int before, int count) {
+                String editable = editText.getText().toString();
+                String str = stringFilter(editable);
+                if (!editable.equals(str)) {
+                    editText.setText(str);
+                    //设置新的光标所在位置
+                    editText.setSelection(str.length());
+                }
+            }
+
+            @Override
+            public void
+            afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    /**
+     * // 只允许数字和汉字
+     *
+     * @param str
+     * @return
+     * @throws PatternSyntaxException
+     */
+    public static String stringFilter(String str) throws PatternSyntaxException {
+
+        String regEx = "[^0-9\u4E00-\u9FA5]";//正则表达式
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
     }
 
     public static void setEdDecimal(EditText editText, int count) {
-        if (count < 1) {
-            count = 1;
+        if (count < 0) {
+            count = 0;
         }
+
+        count += 1;
 
         editText.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_CLASS_NUMBER);
 
@@ -207,7 +267,7 @@ public class RxTool {
         editText.setFilters(new InputFilter[]{new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
-                if (source.equals(".") && dest.toString().length() == 0) {
+                if (".".contentEquals(source) && dest.toString().length() == 0) {
                     return "0.";
                 }
                 if (dest.toString().contains(".")) {
@@ -217,38 +277,76 @@ public class RxTool {
                         return "";
                     }
                 }
+
+                if (dest.toString().equals("0") && source.equals("0")) {
+                    return "";
+                }
+
                 return null;
             }
         }});
     }
 
-    public static void setEditNumberPrefix(final EditText edSerialNumber, final int number) {
-        edSerialNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+    /**
+     * @param editText       输入框控件
+     * @param number         位数
+     *                       1 -> 1
+     *                       2 -> 01
+     *                       3 -> 001
+     *                       4 -> 0001
+     * @param isStartForZero 是否从000开始
+     *                       true -> 从 000 开始
+     *                       false -> 从 001 开始
+     */
+    public static void setEditNumberAuto(final EditText editText, final int number, final boolean isStartForZero) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
-                    String s = edSerialNumber.getText().toString();
-                    String temp = "";
-                    for (int i = s.length(); i < number; i++) {
-                        s = "0" + s;
-                    }
-
-                    for (int i = 0; i < number; i++) {
-                        temp += "0";
-                    }
-                    if (s.equals(temp)) {
-                        s = temp.substring(1) + "1";
-                    }
-                    edSerialNumber.setText(s);
+                    setEditNumber(editText, number, isStartForZero);
                 }
             }
         });
     }
 
+    /**
+     * @param editText       输入框控件
+     * @param number         位数
+     *                       1 -> 1
+     *                       2 -> 01
+     *                       3 -> 001
+     *                       4 -> 0001
+     * @param isStartForZero 是否从000开始
+     *                       true -> 从 000 开始
+     *                       false -> 从 001 开始
+     */
+    public static void setEditNumber(EditText editText, int number, boolean isStartForZero) {
+        StringBuilder s = new StringBuilder(editText.getText().toString());
+        StringBuilder temp = new StringBuilder();
+
+        int i;
+        for (i = s.length(); i < number; ++i) {
+            s.insert(0, "0");
+        }
+        if (!isStartForZero) {
+            for (i = 0; i < number; ++i) {
+                temp.append("0");
+            }
+
+            if (s.toString().equals(temp.toString())) {
+                s = new StringBuilder(temp.substring(1) + "1");
+            }
+        }
+        editText.setText(s.toString());
+    }
+
+    /**
+     * 获取
+     * @return
+     */
     public static Handler getBackgroundHandler() {
         HandlerThread thread = new HandlerThread("background");
         thread.start();
-        Handler mBackgroundHandler = new Handler(thread.getLooper());
-        return mBackgroundHandler;
+        return new Handler(thread.getLooper());
     }
 }

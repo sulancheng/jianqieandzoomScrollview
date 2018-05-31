@@ -11,6 +11,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -22,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * @author  Vondear on 16/7/10 17:59
+ * @author Vondear
+ * @date 2016/7/10 17:59:00
  */
 public class RxShoppingView extends View {
 
@@ -83,7 +85,7 @@ public class RxShoppingView extends View {
         //展示文案大小
         int textSize = (int) typeArray.getDimension(R.styleable.ShoppingView_sv_text_size, sp2px(16));
         //背景色
-        int bgColor = typeArray.getColor(R.styleable.ShoppingView_sv_bg_color, getResources().getColor(R.color.slateblue));
+        int bgColor = typeArray.getColor(R.styleable.ShoppingView_sv_bg_color, ContextCompat.getColor(getContext(), R.color.slateblue));
         typeArray.recycle();
 
         mPaintBg = new Paint();

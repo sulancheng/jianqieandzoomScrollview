@@ -14,6 +14,8 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.vondear.rxtools.model.Gps;
@@ -25,9 +27,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @author ondear
- *         time  : 16/11/13
- *         desc  : 定位相关工具类
+ * @author vondear
+ * @date 2016/11/13
+ * @desc 定位相关工具类
  */
 public class RxLocationTool {
 
@@ -84,9 +86,9 @@ public class RxLocationTool {
      */
     public static boolean registerLocation(Context context, long minTime, long minDistance, OnLocationChangeListener listener) {
         if (listener == null) return false;
-        if (context.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && context.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ((Activity)context).requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            ((Activity)context).requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
             return false;
         }
         mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
