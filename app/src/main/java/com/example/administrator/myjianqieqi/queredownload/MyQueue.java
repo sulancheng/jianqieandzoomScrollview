@@ -1,6 +1,9 @@
 package com.example.administrator.myjianqieqi.queredownload;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Administrator
@@ -9,7 +12,9 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class MyQueue {
     private LinkedBlockingQueue list = new LinkedBlockingQueue();
-//    private BlockingQueue blockingQueue = new BlockingQueue();
+    //    private BlockingQueue blockingQueue = new BlockingQueue();
+//创建计划任务执行器
+    private ScheduledExecutorService es = Executors.newScheduledThreadPool(1);
 
     public void clear()//销毁队列
     {
@@ -48,6 +53,7 @@ public class MyQueue {
         // peek方法返回队列首个元素，但不移除，若队列为空，返回null
         return list.peek();
     }
+
     public static void main(String[] args)//测试队列
     {
         MyQueue queue = new MyQueue();
@@ -71,5 +77,25 @@ public class MyQueue {
         System.out.println(queue.QueueLength());
         System.out.println(queue.QueuePeek());
         System.out.println(queue.deQueue());
+    }
+
+    /**
+     * 初始化执行
+     */
+    public void execute() {
+        //每一分钟执行一次
+        MyQueue queue = new MyQueue();
+        es.scheduleWithFixedDelay(new Runnable() {
+            public void run() {
+                try {
+                    String content = (String) queue.deQueue();
+                    //处理队列中的信息。。。。。
+                    System.out.println(content);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }, 0, 1, TimeUnit.MINUTES);
     }
 }
